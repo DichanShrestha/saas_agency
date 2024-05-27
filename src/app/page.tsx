@@ -2,7 +2,7 @@ import LandingPage from "@/components/LandingPage/LandingPage";
 
 export default function Home() {
   return (
-    <main>
+    <main className=" -mt-20">
       <LandingPage />
     </main>
   );

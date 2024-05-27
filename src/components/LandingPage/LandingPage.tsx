@@ -2,10 +2,12 @@
 
 import { ContainerScroll } from "../ui/container-scroll-animation";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 export default function LandingPage() {
   return (
-    <div>
+    <div className="relative">
+      <Button className="absolute top-24 right-2 ">Login</Button>
       <ContainerScroll
         titleComponent={
           <>
