@@ -1,5 +1,10 @@
 import mongoose from "mongoose";
 
+export interface Message extends Document{
+    content: string,
+    createdAt: Date
+}
+
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,

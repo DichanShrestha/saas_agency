@@ -1,13 +1,15 @@
 "use client";
 
-import { ContainerScroll } from "../ui/container-scroll-animation";
+import { ContainerScroll } from "./ui/container-scroll-animation";
 import Image from "next/image";
-import { Button } from "../ui/button";
-
+import { Button } from "./ui/button";
+import Link from "next/link";
 export default function LandingPage() {
   return (
     <div className="relative">
-      <Button className="absolute top-24 right-2 ">Login</Button>
+      <Link href="/sign-up">
+        <Button className="absolute right-2 top-24">Login</Button>
+      </Link>
       <ContainerScroll
         titleComponent={
           <>
