@@ -26,6 +26,7 @@ export async function POST(request: NextRequest) {
 
     if (isCodeValid && isCodeNotExpired) {
       user.isVerified = true;
+      user.verifyCode = undefined;
       await user.save();
 
       return NextResponse.json(

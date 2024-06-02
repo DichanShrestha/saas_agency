@@ -19,6 +19,7 @@ import { ApiResponse } from "@/types/ApiResponse";
 import { Button } from "@/components/ui/button";
 import { useDebounceCallback } from "usehooks-ts";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
@@ -37,6 +38,7 @@ export default function SignUp() {
   });
   const debounced = useDebounceCallback(setUsername, 300);
   const { toast } = useToast();
+  const router = useRouter()
 
   useEffect(() => {
     const checkUsernameUnique = async () => {
@@ -64,7 +66,6 @@ export default function SignUp() {
   }, [username]);
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
-    console.log("Form submitted", data);
     setIsSubmitting(true);
     try {
       const response = await axios.post("/api/sign-up", data);
@@ -72,7 +73,9 @@ export default function SignUp() {
         title: "Success",
         description: response.data.message,
       });
-
+      if (response.status = 200 || 201) {
+        router.replace(`/verify-code/${username}`)
+      }
       console.log(response);
     } catch (error) {
       console.error("Error during sign-up:", error);
@@ -93,8 +96,6 @@ export default function SignUp() {
   };
 
   const sign_In = async (action: string) => {
-    console.log(action);
-    
     await signIn(action, {callbackUrl: "http://localhost:3000/dashboard"});
   };
 
@@ -162,7 +163,7 @@ export default function SignUp() {
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="mr-2 mb-3 h-4 w-4 animate-spin" />
               Please wait
             </>
           ) : (
@@ -193,16 +194,7 @@ export default function SignUp() {
             </span>
             <BottomGradient />
           </button>
-          <button
-            className="relative group/btn flex space-x-2 items-center justify-start px-4 w-full text-black rounded-md h-10 font-medium shadow-input bg-gray-50 dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_var(--neutral-800)]"
-            type="button"
-          >
-            <IconBrandOnlyfans className="h-4 w-4 text-neutral-800 dark:text-neutral-300" />
-            <span className="text-neutral-700 dark:text-neutral-300 text-sm">
-              OnlyFans
-            </span>
-            <BottomGradient />
-          </button>
+          
         </div>
       </form>
     </div>

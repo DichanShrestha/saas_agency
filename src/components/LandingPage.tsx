@@ -9,7 +9,7 @@ export default function LandingPage() {
   return (
     <div>
       <div className="flex justify-end">
-        <Link href="/sign-up">
+        <Link href="/sign-in">
           <Button className="mt-24 mr-4">Login</Button>
         </Link>
       </div>
