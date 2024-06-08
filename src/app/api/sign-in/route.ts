@@ -44,6 +44,8 @@ export async function POST(request: NextRequest) {
             { status: 401 }
           );
     }
+    user.isLoggedIn = true;
+    await user.save()
     const { password: _, ...userWithoutPassword } = user.toObject();
 
     return NextResponse.json(

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/utils/cn";
@@ -13,18 +13,22 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { ApiResponse } from "@/types/ApiResponse";
+import { Loader2 } from "lucide-react";
+import { useDispatch } from "react-redux";
 
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
 export default function SignupFormDemo() {
   const { register, handleSubmit } = useForm<SignUpFormValues>();
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const router = useRouter()
   const { toast } = useToast()
+  const dispatch = useDispatch()
 
   const onSubmit: SubmitHandler<SignUpFormValues> = async (data) => {
+    setIsSubmitting(true)
     try {
       const response = await axios.post("/api/sign-in", data);
-      console.log(response);
       toast({
         title: "Sign in success",
         description: response.data.message
@@ -38,10 +42,12 @@ export default function SignupFormDemo() {
       console.log(axiosError);
       
       toast({
-        title: "Sign up failed",
+        title: "Sign in failed",
         description: axiosError.response?.data.message,
         variant: "destructive"
       })
+    } finally {
+      setIsSubmitting(false)
     }
   };
 
@@ -76,7 +82,14 @@ export default function SignupFormDemo() {
           className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
           type="submit"
         >
-          Sign in &rarr;
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </>
+          ) : (
+            <span>Sign in &rarr;</span>
+          )}
           <BottomGradient />
         </button>
 

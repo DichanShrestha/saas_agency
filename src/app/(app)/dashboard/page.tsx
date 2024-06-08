@@ -73,13 +73,18 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { signOut } from "next-auth/react";
+import Navbar from "@/components/Navbar/page";
 
 export default function Dashboard() {
   const logout = async () => {
     await signOut({callbackUrl: "http://localhost:3000/"})
   }
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <div>
+      <div>
+        <Navbar />
+      </div>
+      <div className="flex min-h-screen w-full flex-col bg-muted/40">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link
@@ -724,6 +729,7 @@ export default function Dashboard() {
           </div>
         </main>
       </div>
+    </div>
     </div>
   );
 }

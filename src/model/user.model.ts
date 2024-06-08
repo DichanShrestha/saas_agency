@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 export interface User extends Document {
   username: string;
@@ -7,6 +7,8 @@ export interface User extends Document {
   verifyCode?: string;
   verifyCodeExpiry?: Date;
   isVerified: boolean;
+  isLoggedIn?: boolean;
+  isSubscribed?: boolean;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -34,6 +36,14 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  isLoggedIn: {
+    type: Boolean,
+    default: false
+  },
+  isSubscribed: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const UserModel = mongoose.models.User || mongoose.model<User>("User", UserSchema);
